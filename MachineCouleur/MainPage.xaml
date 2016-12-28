@@ -7,7 +7,87 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="0,0,0,0">
 
-    </Grid>
+        <StackPanel x:Name="sptitre" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True" Margin="8">
+            <TextBlock x:Name="tbtitre" Text=" La machine à couleurs" FontWeight="Bold" FontSize="48" />
+        </StackPanel>
+
+        <StackPanel x:Name="spMachine" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.Below="sptitre" Margin="8,8,8,0" VerticalAlignment="Top" Orientation="Horizontal" >
+            
+            <StackPanel x:Name="spRVB" Orientation="Vertical" VerticalAlignment="Center" >
+                
+                <ListView Name="lstEntrees" Margin="8">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto">
+                                    </RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="90"></ColumnDefinition>
+                                    <ColumnDefinition Width="50" ></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0" Text="{Binding Nom}" TextAlignment="Left" VerticalAlignment="Center"  Margin="0,0,8,0"/>
+                                <TextBlock Grid.Column="1" Text="{Binding Valeur}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ListView>
+                
+            </StackPanel>
+
+            <StackPanel x:Name="spCouleur" Orientation="Vertical" Width="100" Margin="8,0">
+                <StackPanel.Background>
+                    <SolidColorBrush Color="{Binding RVB, Mode=OneWay}" />
+                </StackPanel.Background>
+                <TextBlock Text="{Binding Nom, Mode=OneWay}" />
+            </StackPanel>
+
+            <StackPanel x:Name="spCourleurTrouvee" Orientation="Vertical" Margin="0" VerticalAlignment="Center">
+
+                <ListView Name="lstSorties" Margin="8">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto">
+                                    </RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100" ></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0"  Text="{Binding Valeur}" TextAlignment="Left" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                <TextBlock Grid.Column="1" Text="%" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                <RadioButton Grid.Column="2" Content="{Binding Nom}" IsChecked="{Binding Correcte}" Margin="4,0,0,0" GroupName="grpCouleurTrouvee" Click="RadioButton_Click"/>
+
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ListView>
+
+            </StackPanel>
+            
+        </StackPanel>
+
+        <StackPanel x:Name="spCommand" Orientation="Horizontal" RelativePanel.Below="spMachine" RelativePanel.AlignHorizontalCenterWithPanel="True">
+            <Button x:Name="Btndemarrer" Content="Démarrer" Margin="0,8,0,0" HorizontalAlignment="Center" Click="Btndemarrer_Click">
+                <Button.ContentTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Ellipse Width="100"   Height="50" Fill="Blue"/>
+                            <TextBlock Text="{Binding}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontWeight="Bold" />
+                        </Grid>
+                    </DataTemplate>
+                </Button.ContentTemplate>
+            </Button>
+        </StackPanel>
+        
+    </RelativePanel>
 </Page>
