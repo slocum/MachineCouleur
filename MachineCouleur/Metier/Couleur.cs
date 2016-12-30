@@ -43,19 +43,19 @@ namespace MachineCouleur.Metier
         private byte _Rouge;
         public byte Rouge {
             get { return _Rouge; }
-            set { _Rouge = limiterValeur(value); }
+            set { _Rouge = LimiterValeur(value); }
         }
 
         private byte _Vert;
         public byte Vert {
             get { return _Vert; }
-            set { _Vert = limiterValeur(value); }
+            set { _Vert = LimiterValeur(value); }
         }
 
         private byte _Bleu;
         public byte Bleu {
             get { return _Bleu; }
-            set { _Bleu = limiterValeur(value); }
+            set { _Bleu = LimiterValeur(value); }
         }
 
         private Color _RVB;
@@ -82,23 +82,23 @@ namespace MachineCouleur.Metier
 
         public Couleur()
         {
-            setProprietes(0, 0, 0);
+            SetProprietes(0, 0, 0);
         }
 
         #endregion
 
         #region Interface
 
-        public void aleatoire()
+        public void Aleatoire()
         {
-            setProprietes(NumberRand(), NumberRand(), NumberRand());
+            SetProprietes(NumberRand(), NumberRand(), NumberRand());
         }
 
         #endregion
 
         #region Implémentation
 
-        private byte limiterValeur(byte pValue)
+        private byte LimiterValeur(byte pValue)
         {
             if (pValue < 0) return 0;
             if (pValue > VALEUR_MAX) return VALEUR_MAX;
@@ -111,29 +111,26 @@ namespace MachineCouleur.Metier
             return (byte)_Rand.Next(VALEUR_MAX + 1) ;
         }
 
-        private void setProprietes(byte pRouge, byte pVert, byte pBleu)
+        private void SetProprietes(byte pRouge, byte pVert, byte pBleu)
         {
             Rouge = pRouge;
             Vert = pVert;
             Bleu = pBleu;
 
             _BrushCouleur = new SolidColorBrush(Color.FromArgb(255, Rouge, Vert, Bleu));
-            onPropertyChanged(new PropertyChangedEventArgs("BrushCouleur"));
+            OnPropertyChanged(new PropertyChangedEventArgs("BrushCouleur"));
 
             _RVB = _BrushCouleur.Color; 
-            onPropertyChanged(new PropertyChangedEventArgs("RVB"));
+            OnPropertyChanged(new PropertyChangedEventArgs("RVB"));
 
             _Nom = _RVB.ToString();
-            onPropertyChanged(new PropertyChangedEventArgs("Nom"));
+            OnPropertyChanged(new PropertyChangedEventArgs("Nom"));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        public void onPropertyChanged(PropertyChangedEventArgs e)
+        public void OnPropertyChanged(PropertyChangedEventArgs e)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, e);
-            }
+            PropertyChanged?.Invoke(this, e);
         }
 
         #endregion

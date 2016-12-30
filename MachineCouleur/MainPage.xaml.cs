@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -101,13 +102,13 @@ namespace MachineCouleur
         {
             _TxApprentissage = 0.7;
 
-            _RN = new ReseauNeurones(_LstEntrees.Count, new int[] { 4, _LstSorties.Count }, new SigmoidFunction());
+            _RN = new ReseauNeurones(_LstEntrees.Count, new int[] {5, _LstSorties.Count }, new SigmoidFunction());
             _MaA = new MachineAApprendre(_RN, _TxApprentissage);
         }
 
         private void NouvelleCouleur()
         {
-            _Couleur.aleatoire();
+            _Couleur.Aleatoire();
 
             _LstEntrees.Modifier(Couleur.ROUGE, _Couleur.Rouge);
             _LstEntrees.Modifier(Couleur.VERT, _Couleur.Vert);
@@ -141,8 +142,23 @@ namespace MachineCouleur
 
         private void RadioButton_Click(object sender, RoutedEventArgs e)
         {
-            Echantillon echantillon = new Echantillon()
-            _MaA.Apprendre()
+            RadioButton radioBtn = (RadioButton)sender;
+            string nom = radioBtn.Content.ToString();
+
+            double[] sorties = new double[_LstSorties.Count];
+
+            for (int i = 0; i < _LstSorties.Count; i++)
+            {
+                sorties[i] = 0;
+                if (_LstSorties.Observable[i].Nom == nom )
+                {
+                    sorties[i] = 1;
+                }
+            }
+
+            Echantillon echantillon = new Echantillon(_LstEntrees.Doubles, sorties);
+            _MaA.Apprendre(echantillon);
+
             NouvelEchantillon();
         }
     }
